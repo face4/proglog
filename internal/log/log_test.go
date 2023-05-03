@@ -1,7 +1,6 @@
 package log
 
 import (
-	"fmt"
 	"io"
 	"os"
 	"testing"
@@ -117,7 +116,6 @@ func testTruncate(t *testing.T, log *Log) {
 		_, err := log.Append(append)
 		require.NoError(t, err)
 	}
-	fmt.Printf("tabun 3 = %d\n", len(log.segments))
 	err := log.Truncate(1)
 	require.NoError(t, err)
 	_, err = log.Read(0)
