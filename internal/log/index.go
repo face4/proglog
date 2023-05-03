@@ -59,7 +59,7 @@ func (i *index) Close() error {
 	return i.file.Close()
 }
 
-// インデックスのoffsetを受け取り、対応するストアのレコードの位置を返す
+// インデックスのoffset(相対)を受け取り、対応するストアのレコードのoffset(絶対)と位置を返す
 func (i *index) Read(in int64) (out uint32, pos uint64, err error) {
 	if i.size == 0 {
 		return 0, 0, io.EOF
