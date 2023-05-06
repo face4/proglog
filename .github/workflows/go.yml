@@ -20,7 +20,14 @@ jobs:
       uses: actions/setup-go@v4
       with:
         go-version: 1.19
-
+    - name: Go Install
+      run: |
+        go install github.com/cloudflare/cfssl/cmd/...@latest
+    - name: Set up TLS/ACS files
+      run: |
+        make init
+        make gencert
+        make ACL
     - name: Build
       run: go build -v ./...
     - name: Test
