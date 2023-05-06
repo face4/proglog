@@ -8,7 +8,7 @@ init:
 gencert:
 	cfssl gencert \
 		-initca test/ca-csr.json | cfssljson -bare ca
-
+		
 	cfssl gencert \
 		-ca=ca.pem \
 		-ca-key=ca-key.pem \
@@ -44,12 +44,15 @@ compile:
 		--go-grpc_out=. \
 		--go-grpc_opt=paths=source_relative
 
+# ACL
 $(CONFIG_PATH)/model.conf:
 	cp test/model.conf $(CONFIG_PATH)/model.conf
-
 $(CONFIG_PATH)/policy.csv:
 	cp test/policy.csv $(CONFIG_PATH)/policy.csv
 
+.PHONY: ACL
+ACL: $(CONFIG_PATH)/policy.csv $(CONFIG_PATH)/model.conf
+
 .PHONY: test
-test: $(CONFIG_PATH)/policy.csv $(CONFIG_PATH)/model.conf
+test: ACL
 	go test -race ./... -count 1
